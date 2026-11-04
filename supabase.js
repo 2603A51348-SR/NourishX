@@ -318,6 +318,82 @@ async function dbSaveChatMessage(sender, message) {
   }
 }
 
+// ============================================================================
+// 5. SYMPTOM ASSESSMENTS & DEFICIENCY SYNC
+// ============================================================================
+
+async function dbSaveSymptomAssessment(symptoms, deficiencies, foods) {
+  if (isSupabaseReady && supabaseClient) {
+    try {
+      await supabaseClient.from("symptom_assessments").insert([{
+        symptoms: symptoms,
+        detected_deficiencies: deficiencies,
+        recommended_foods: foods,
+        assessed_at: new Date().toISOString()
+      }]);
+    } catch (err) {}
+  }
+}
+
+// ============================================================================
+// 6. INGREDIENT & LABEL DECODER SYNC
+// ============================================================================
+
+async function dbSaveDecodedLabel(productName, rawIngredients, novaGroup, flaggedAdditives, healthyAlt) {
+  if (isSupabaseReady && supabaseClient) {
+    try {
+      await supabaseClient.from("decoded_labels").insert([{
+        product_name: productName,
+        raw_ingredients: rawIngredients,
+        nova_group: novaGroup,
+        flagged_additives: flaggedAdditives,
+        healthy_alternative: healthyAlt,
+        decoded_at: new Date().toISOString()
+      }]);
+    } catch (err) {}
+  }
+}
+
+// ============================================================================
+// 7. USER MEAL PLAN SWAPS SYNC
+// ============================================================================
+
+async function dbSaveMealPlanSwap(dietType, dayName, mealType, meal) {
+  if (isSupabaseReady && supabaseClient) {
+    try {
+      await supabaseClient.from("user_meal_plans").insert([{
+        diet_type: dietType,
+        day_name: dayName,
+        meal_type: mealType,
+        title: meal.title,
+        calories: meal.kcal,
+        protein: meal.p,
+        carbs: meal.c,
+        fat: meal.f,
+        superfood: meal.superfood,
+        updated_at: new Date().toISOString()
+      }]);
+    } catch (err) {}
+  }
+}
+
+// ============================================================================
+// 8. GROCERY ITEM STATE SYNC
+// ============================================================================
+
+async function dbToggleGroceryItem(name, category, isChecked) {
+  if (isSupabaseReady && supabaseClient) {
+    try {
+      await supabaseClient.from("grocery_items").insert([{
+        name: name,
+        category: category,
+        is_checked: isChecked,
+        created_at: new Date().toISOString()
+      }]);
+    } catch (err) {}
+  }
+}
+
 // Auto-initialize when DOM is ready
 if (typeof document !== "undefined") {
   document.addEventListener("DOMContentLoaded", () => {
