@@ -111,3 +111,10 @@ Simply double-click `index.html` to open directly in Google Chrome, Microsoft Ed
 ---
 
 *© 2026 NourishX. Built with passion for the AI Nutrition & Health Hackathon.*
+
+
+---
+### 🟢 Supabase Cloud Database Status
+- **Project:** https://uxqchiiiirqyukmekyax.supabase.co
+- **Tables Created:** meals, daily_logs, user_targets, chat_history, grocery_items
+- **Row Level Security (RLS):** Enabled & Configured for Seamless Anonymous Client Access
