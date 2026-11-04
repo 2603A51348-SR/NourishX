@@ -1161,6 +1161,10 @@ function swapMealItem(dayIndex, mealIndex) {
   currentMeal.f = nextAlt.f;
   currentMeal.superfood = nextAlt.superfood;
 
+  if (typeof dbSaveMealPlanSwap === "function") {
+    dbSaveMealPlanSwap(AppState.activeDietKey, MEAL_PLANS[AppState.activeDietKey].days[dayIndex].day, currentMeal.type, nextAlt);
+  }
+
   renderMealPlan();
   showToast("Swapped with a delicious nutritionist-approved alternative!");
 }
@@ -1244,6 +1248,13 @@ function populateGroceryList() {
         `).join("")}
       </ul>
     `;
+    section.querySelectorAll("input[type='checkbox']").forEach((chk, idx) => {
+      chk.addEventListener("change", (e) => {
+        if (typeof dbToggleGroceryItem === "function") {
+          dbToggleGroceryItem(cat.items[idx], cat.name, e.target.checked);
+        }
+      });
+    });
     container.appendChild(section);
   });
 }
@@ -1321,6 +1332,10 @@ function evaluateSymptoms() {
       </div>
     </div>
   `;
+
+  if (typeof dbSaveSymptomAssessment === "function") {
+    dbSaveSymptomAssessment(checked, Array.from(detectedDeficiencies), recommendedFoods.slice(0, 6));
+  }
 }
 
 // ==========================================
@@ -1458,6 +1473,11 @@ function renderLabelAnalysis(title, analysis) {
       </div>
     </div>
   `;
+
+  if (typeof dbSaveDecodedLabel === "function") {
+    const rawInput = document.getElementById("labelTextInput")?.value || "";
+    dbSaveDecodedLabel(title, rawInput, analysis.novaScore, analysis.flags, analysis.healthyAlternative);
+  }
 }
 
 // ==========================================
